@@ -6,7 +6,7 @@
 
 # License GPL v2
 
-# Version 1.0
+# Version 1.0,1
 
 use 5.008;
 use strict;
@@ -23,7 +23,7 @@ close(DATA) if fileno(DATA);
 exit(&main(@ARGV));
 
 my $VERSION;
-BEGIN {$VERSION = \"1.0"}
+BEGIN {$VERSION = \"1.0.1"}
 
 my $debug;
 BEGIN {$debug = 0}
@@ -174,6 +174,7 @@ sub main {
 	my $name = basename($0);
 	my @optlist;
 	my $fn;
+	my $nsexit = 0;
 
 	Getopt::Long::Configure('bundling');
 	@optlist = (
@@ -188,14 +189,18 @@ sub main {
 	if (!defined($smudging)) {
 		# Check for changelog.smudge setting
 		my $auto = get_git(qw(config --get changelog.smudge));
+		my $impauto = 1;
 		if (defined($auto)) {
 			$auto = lc($auto);
-			if ($truevals{$auto} || ($auto =~ /^[-+]\d+$/ && 0+$auto)) {
+			if ($truevals{$auto} || ($auto =~ /^[-+]?\d+$/ && ($auto=0+$auto))) {
 				$auto = 1;
+				$impauto = 0;
 			} else {
 				if ($auto ne "bare") {
+					$impauto = 0 if $auto eq "0";
 					$auto = 0;
 				} else {
+					$impauto = 0;
 					my $bare = get_git(qw(rev-parse --is-bare-repository));
 					if (defined($bare) && $bare eq "true") {
 						$auto = 1;
@@ -206,6 +211,14 @@ sub main {
 			}
 		}
 		$smudging = 1 if $auto;
+		if (!defined($smudging)) {
+			my $pcmd = qx(ps -o comm=,args= -p @{[getppid]}) || "";
+			if ($pcmd =~ /\bgit\b.+\barchive\b/) {
+				my $imp = $impauto ? " implicit" : "";
+				warn "$name:$imp non-smudging of \"$fn\" under git archive detected!\n";
+				$nsexit = 64;
+			}
+		}
 	}
 	my $line1;
 	binmode(STDIN);
@@ -240,7 +253,7 @@ sub main {
 		while (read(STDIN, $buf, 32768)) {
 			print $buf;
 		}
-		exit 0;
+		exit $nsexit;
 	}
 	my @tags = ();
 	while (<STDIN>) {
