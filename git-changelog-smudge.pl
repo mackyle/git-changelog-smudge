@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 # git-changelog-smudge.pl -- smudge a ChangeLog file to include tag contents
-# Copyright (C) 2017 Kyle J. McKay <mackyle@gmail.com>
+# Copyright (C) 2017,2019 Kyle J. McKay <mackyle@gmail.com>
 # All rights reserved
 
 # License GPL v2
@@ -663,7 +663,7 @@ in the first place.
 
 =item License GPLv2: GNU GPL version 2 only.
 
-=item L<http://gnu.org/licenses/gpl-2.0.html>
+=item L<https://www.gnu.org/licenses/gpl-2.0.html>
 
 =item This is free software: you are free to change and redistribute it.
 
@@ -682,7 +682,7 @@ be found at:
 
 =over 8
 
-L<http://repo.or.cz/markdown.git>
+L<https://repo.or.cz/markdown.git>
 
 =back
 
