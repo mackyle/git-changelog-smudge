@@ -1,12 +1,12 @@
 #!/usr/bin/env perl
 
 # git-changelog-smudge.pl -- smudge a ChangeLog file to include tag contents
-# Copyright (C) 2017,2019 Kyle J. McKay <mackyle@gmail.com>
+# Copyright (C) 2017,2019,2021 Kyle J. McKay <mackyle@gmail.com>
 # All rights reserved
 
 # License GPL v2
 
-# Version 1.0,1
+# Version 1.0.1
 
 use 5.008;
 use strict;
@@ -419,7 +419,7 @@ are found at all this automagical blank line insertion will be disabled.
 
 Signature data (if present) gets stripped from the end of the message.
 
-A Markdown-style "H1" line will be added unless the beginning of the
+A Markdown-style "H1" line will be added unless the beginning of the tag
 message already contains one in which case it will have the tagname
 (or display tag name if present) prefixed to it unless it already contains
 (case-insensitively) the tag name (display tag name if given).
@@ -499,7 +499,7 @@ Here's another valid example "ChangeLog" file:
 	    # more comments
 	with-#char gotcha
 
-This example contains four tag names, "123", "funny-name-tag" and "with-#char".
+This example contains three tag names, "123", "funny-name-tag" and "with-#char".
 Yup, "#" is a valid tag name character as far as Git is concerned.  The astute
 reader will have noticed that the third and fourth lines were taken as comment
 lines rather than tag lines.  Currently C<git-changelog-smudge.pl> does not
@@ -655,9 +655,9 @@ in the first place.
 
 =over
 
-=item git-changelog-smudge.pl version 1.0.0
+=item git-changelog-smudge.pl version 1.0.1
 
-=item Copyright (C) 2017 Kyle J. McKay.
+=item Copyright (C) 2017,2019,2021 Kyle J. McKay.
 
 =item All rights reserved.
 
